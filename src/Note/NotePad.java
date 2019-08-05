@@ -17,7 +17,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -80,6 +79,7 @@ class MyFrame extends JFrame {
 		Container cpane = this.getContentPane();
 		cpane.add(s_pane, BorderLayout.CENTER);
 		this.setSize(600, 400);// 设置窗体的大小
+		
 		// 初始化菜单
 		mb = new JMenuBar();
 
@@ -165,11 +165,8 @@ class MyFrame extends JFrame {
 	// 事件监听器
 	private void registerListener() {
 
-		// fd_save = new FileDialog(this,"保存文件",FileDialog.SAVE);
 		FileDialog fd_open = new FileDialog(this, "打开文件", FileDialog.LOAD);
-		Charset charset = Charset.forName(System.getProperty("file.encoding"));
-		// encoder = charset.newEncoder();
-		// decoder = charset.newDecoder();
+
 
 		item_new.addActionListener(new ActionListener() {
 
@@ -183,16 +180,17 @@ class MyFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String s = e.getActionCommand();
-
+				
+				
 				fd_open.setVisible(true);
-				String d = fd_open.getDirectory();
-				String f = fd_open.getFile();
-				if ((d != null) && (f != null)) {
-					String destfile = d + f;
+				String dir = fd_open.getDirectory();
+				String fil = fd_open.getFile();
+				if ((dir != null) && (fil != null)) {
+					String destfile = dir + fil;
 					if (destfile.equals(filename)) {
 						return;
-					} else {
+					}
+					else {
 						closeFile();
 						filename = destfile;
 						loadFile();
@@ -204,6 +202,7 @@ class MyFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				if (filename.equals("E:\\无标题.txt")) {
 					saveasFile();
 				} else {
@@ -216,8 +215,7 @@ class MyFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				// fd_save.setVisible(true);
+				
 				saveasFile();
 			}
 		});
@@ -288,8 +286,10 @@ class MyFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				Date now = new Date(); // 获取当前时间
-				SimpleDateFormat timenow = new SimpleDateFormat("yyyy年  MM月  dd日 \n");// 格式化当前日期时间 还要换行啊
+				 // 获取当前时间
+				Date now = new Date();
+				// 格式化当前日期时间
+				SimpleDateFormat timenow = new SimpleDateFormat("yyyy年  MM月  dd日 \n");
 				String date = timenow.format(now.getTime());
 				String before;
 				before = tv_area.getText();
@@ -318,8 +318,9 @@ class MyFrame extends JFrame {
 				saveasFile();
 
 			} else {
+				// 清空记事本中的内容
 				tv_area.setText("");
-			} // 清空记事本中的内容
+			} 
 
 		}
 		filename = "E:\\无标题.txt";
@@ -403,8 +404,8 @@ class MyFrame extends JFrame {
 	public void loadFile() {
 
 		try {
-			FileReader fr = new FileReader(filename); // 字符流 fileinputstream 字节流 （黑人问号）
-			BufferedReader br = new BufferedReader(fr); // 处理流 （缓冲一下）
+			FileReader fr = new FileReader(filename); 
+			BufferedReader br = new BufferedReader(fr); 
 			String content;
 			tv_area.setText("");
 			while ((content = br.readLine()) != null) {
